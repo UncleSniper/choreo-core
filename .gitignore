@@ -1,0 +1,6 @@
+.*.swp
+/lib/*.jar
+/bin
+/warbin
+/dist
+/doc/api

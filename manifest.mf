@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+
+Name: Choreo
+Element-Map: org/unclesniper/choreo/core/resource/elements.properties
