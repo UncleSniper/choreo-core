@@ -2,7 +2,9 @@ package org.unclesniper.choreo.core;
 
 import org.unclesniper.choreo.ChoreoTask;
 import org.unclesniper.choreo.RunContext;
+import org.unclesniper.choreo.annotation.ElementClass;
 
+@ElementClass("helloWorld")
 public class HelloWorldTask implements ChoreoTask {
 
 	private String who;

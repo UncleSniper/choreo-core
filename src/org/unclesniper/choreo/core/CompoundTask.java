@@ -6,7 +6,9 @@ import org.unclesniper.choreo.ChoreoTask;
 import org.unclesniper.choreo.RunContext;
 import org.unclesniper.choreo.ChoreoRunException;
 import org.unclesniper.choreo.annotation.DefaultAdder;
+import org.unclesniper.choreo.annotation.ElementClass;
 
+@ElementClass("seq")
 public class CompoundTask implements ChoreoTask {
 
 	private final List<ChoreoTask> steps = new LinkedList<ChoreoTask>();

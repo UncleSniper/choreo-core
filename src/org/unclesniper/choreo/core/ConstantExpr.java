@@ -1,7 +1,9 @@
 package org.unclesniper.choreo.core;
 
 import org.unclesniper.choreo.RunContext;
+import org.unclesniper.choreo.annotation.ElementClass;
 
+@ElementClass("const")
 public class ConstantExpr<ReturnT> implements ChoreoExpr<ReturnT> {
 
 	private ReturnT value;
