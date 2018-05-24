@@ -45,6 +45,22 @@ public final class ExprUtils {
 				+ ", but returns " + ert.getName());
 	}
 
+	public static <ReturnT> ChoreoExpr<? extends ReturnT> ensureReturnTypeE(ChoreoExpr<? extends ReturnT> expression,
+			Class<ReturnT> returnType) {
+		if(expression == null)
+			return null;
+		Class<? extends ReturnT> ert = expression.getReturnType();
+		if(ert == null)
+			return expression;
+		if(returnType.isAssignableFrom(ert))
+			return expression;
+		Class<?> transposed = ExprUtils.INTERCHANGEABLE_TYPES.get(ert);
+		if(transposed != null && returnType.isAssignableFrom(transposed))
+			return expression;
+		throw new IllegalArgumentException("Expression must return " + returnType.getName()
+				+ ", but returns " + ert.getName());
+	}
+
 	public static Class<?> commonAncestor(Class<?> a, Class<?> b) {
 		while(!a.isAssignableFrom(b))
 			a = a.getSuperclass();
