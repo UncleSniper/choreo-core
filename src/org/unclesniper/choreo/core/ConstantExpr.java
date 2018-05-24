@@ -41,4 +41,20 @@ public class ConstantExpr<ReturnT> implements ChoreoExpr<ReturnT> {
 		return null;
 	}
 
+	public int hashCode() {
+		return value == null ? 0 : value.hashCode();
+	}
+
+	@SuppressWarnings("unchecked")
+	public boolean equals(Object other) {
+		if(other == null || !other.getClass().equals(getClass()))
+			return false;
+		ConstantExpr<ReturnT> oce = (ConstantExpr)other;
+		if(value == null)
+			return oce.value == null;
+		if(oce.value == null)
+			return false;
+		return value.equals(oce.value);
+	}
+
 }

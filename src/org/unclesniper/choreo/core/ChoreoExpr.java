@@ -5,8 +5,8 @@ import org.unclesniper.choreo.ChoreoRunException;
 
 public interface ChoreoExpr<ReturnT> {
 
-	ReturnT evaluate(RunContext context) throws ChoreoRunException;
-
 	Class<? extends ReturnT> getReturnType();
+
+	ReturnT evaluate(RunContext context) throws ChoreoRunException;
 
 }
