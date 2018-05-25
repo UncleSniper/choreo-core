@@ -28,11 +28,13 @@ public class StringIndexOf extends AbstractStringOperation implements ChoreoExpr
 
 	public StringIndexOf() {}
 
-	public StringIndexOf(ChoreoExpr<?> needle) {
-		this(needle, null, null);
+	public StringIndexOf(ChoreoExpr<String> string, ChoreoExpr<?> needle) {
+		this(string, needle, null, null);
 	}
 
-	public StringIndexOf(ChoreoExpr<?> needle, ChoreoExpr<Integer> from, ChoreoExpr<Boolean> last) {
+	public StringIndexOf(ChoreoExpr<String> string, ChoreoExpr<?> needle,
+			ChoreoExpr<Integer> from, ChoreoExpr<Boolean> last) {
+		super(string);
 		setNeedle(needle);
 		this.from = ExprUtils.ensureReturnType(from, Integer.class);
 		this.last = ExprUtils.ensureReturnType(last, Boolean.class);
@@ -54,7 +56,7 @@ public class StringIndexOf extends AbstractStringOperation implements ChoreoExpr
 		if(needle != null) {
 			Class<?> ert = needle.getReturnType();
 			if(ert != null && !StringIndexOf.ALLOWED_NEEDLE_TYPES.contains(ert))
-				throw new IllegalArgumentException("Expression must return char, int or String, but returns "
+				throw new IllegalArgumentException("Expression must return char, int, or String, but returns "
 						+ ert.getName());
 		}
 		this.needle = needle;
