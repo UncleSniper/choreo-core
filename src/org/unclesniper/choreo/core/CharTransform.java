@@ -24,10 +24,10 @@ public abstract class CharTransform implements ChoreoExpr<Character> {
 	}
 
 	public void setCharacter(Character character) {
-		this.character = character == null ? null : new ConstantExpr<Character>(character);
+		this.character = ConstantExpr.from(character);
 	}
 
-	public Class<? extends Character> getReturnType() {
+	public Class<Character> getReturnType() {
 		return Character.class;
 	}
 

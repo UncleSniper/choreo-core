@@ -34,7 +34,7 @@ public abstract class VariadicBooleanOperator implements ChoreoExpr<Boolean> {
 		operands.clear();
 	}
 
-	public Class<? extends Boolean> getReturnType() {
+	public Class<Boolean> getReturnType() {
 		return Boolean.class;
 	}
 

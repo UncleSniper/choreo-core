@@ -36,7 +36,7 @@ public class Return<ReturnT> implements ChoreoExpr<ReturnT> {
 	}
 
 	public void setReturnObject(ReturnT value) {
-		this.returnValue = value == null ? null : new ConstantExpr<ReturnT>(value);
+		this.returnValue = ConstantExpr.from(value);
 	}
 
 	public Class<? extends ReturnT> getReturnType() {
@@ -46,7 +46,7 @@ public class Return<ReturnT> implements ChoreoExpr<ReturnT> {
 	public ReturnT evaluate(RunContext context) throws ChoreoRunException {
 		if(task != null)
 			task.execute(context);
-		return returnValue == null ? null : returnValue.evaluate(context);
+		return ExprUtils.reduce(returnValue, context);
 	}
 
 }

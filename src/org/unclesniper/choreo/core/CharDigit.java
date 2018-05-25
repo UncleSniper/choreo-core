@@ -28,7 +28,7 @@ public class CharDigit implements ChoreoExpr<Integer> {
 	}
 
 	public void setCharacter(Character character) {
-		this.character = character == null ? null : new ConstantExpr<Character>(character);
+		this.character = ConstantExpr.from(character);
 	}
 
 	public ChoreoExpr<Integer> getRadix() {
@@ -43,13 +43,13 @@ public class CharDigit implements ChoreoExpr<Integer> {
 		this.radix = new ConstantExpr<Integer>(radix);
 	}
 
-	public Class<? extends Integer> getReturnType() {
+	public Class<Integer> getReturnType() {
 		return Integer.class;
 	}
 
 	public Integer evaluate(RunContext context) throws ChoreoRunException {
-		Character cspec = character == null ? null : character.evaluate(context);
-		Integer rspec = radix == null ? null : radix.evaluate(context);
+		Character cspec = ExprUtils.reduce(character, context);
+		Integer rspec = ExprUtils.reduce(radix, context);
 		return Character.digit(cspec, rspec == null || rspec <= 0 ? (Integer)10 : rspec);
 	}
 

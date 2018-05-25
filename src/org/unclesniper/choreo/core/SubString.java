@@ -32,7 +32,7 @@ public class SubString extends AbstractStringOperation implements ChoreoExpr<Str
 	}
 
 	public void setBegin(Integer begin) {
-		this.begin = begin == null ? null : new ConstantExpr<Integer>(begin);
+		this.begin = ConstantExpr.from(begin);
 	}
 
 	public ChoreoExpr<Integer> getEnd() {
@@ -44,17 +44,17 @@ public class SubString extends AbstractStringOperation implements ChoreoExpr<Str
 	}
 
 	public void setEnd(Integer end) {
-		this.end = end == null ? null : new ConstantExpr<Integer>(end);
+		this.end = ConstantExpr.from(end);
 	}
 
-	public Class<? extends String> getReturnType() {
+	public Class<String> getReturnType() {
 		return String.class;
 	}
 
 	public String evaluate(RunContext context) throws ChoreoRunException {
-		String estring = string == null ? null : string.evaluate(context);
-		Integer ebegin = begin == null ? null : begin.evaluate(context);
-		Integer eend = end == null ? null : end.evaluate(context);
+		String estring = ExprUtils.reduce(string, context);
+		Integer ebegin = ExprUtils.reduce(begin, context);
+		Integer eend = ExprUtils.reduce(end, context);
 		if(eend != null || eend >= 0)
 			return estring.substring(ebegin, eend);
 		else

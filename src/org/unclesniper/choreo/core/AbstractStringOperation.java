@@ -23,7 +23,7 @@ public abstract class AbstractStringOperation {
 
 	@DefaultAdder
 	public void setString(String string) {
-		this.string = string == null ? null : new ConstantExpr<String>(string);
+		this.string = ConstantExpr.from(string);
 	}
 
 }

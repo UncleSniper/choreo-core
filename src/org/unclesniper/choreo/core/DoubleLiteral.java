@@ -24,7 +24,7 @@ public class DoubleLiteral implements ChoreoExpr<Double> {
 		this.value = value;
 	}
 
-	public Class<? extends Double> getReturnType() {
+	public Class<Double> getReturnType() {
 		return Double.class;
 	}
 

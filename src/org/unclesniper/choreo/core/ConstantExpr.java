@@ -57,4 +57,8 @@ public class ConstantExpr<ReturnT> implements ChoreoExpr<ReturnT> {
 		return value.equals(oce.value);
 	}
 
+	public static <ReturnT> ConstantExpr<ReturnT> from(ReturnT value) {
+		return value == null ? null : new ConstantExpr<ReturnT>(value);
+	}
+
 }

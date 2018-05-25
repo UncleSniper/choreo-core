@@ -25,15 +25,15 @@ public class StringCharAt extends AbstractStringOperation implements ChoreoExpr<
 	}
 
 	public void setIndex(Integer index) {
-		this.index = index == null ? null : new ConstantExpr<Integer>(index);
+		this.index = ConstantExpr.from(index);
 	}
 
-	public Class<? extends Character> getReturnType() {
+	public Class<Character> getReturnType() {
 		return Character.class;
 	}
 
 	public Character evaluate(RunContext context) throws ChoreoRunException {
-		String estring = string == null ? null : string.evaluate(context);
+		String estring = ExprUtils.reduce(string, context);
 		return estring.charAt(index.evaluate(context));
 	}
 

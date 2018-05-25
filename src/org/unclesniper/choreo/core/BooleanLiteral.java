@@ -24,7 +24,7 @@ public class BooleanLiteral implements ChoreoExpr<Boolean> {
 		this.value = value;
 	}
 
-	public Class<? extends Boolean> getReturnType() {
+	public Class<Boolean> getReturnType() {
 		return Boolean.class;
 	}
 

@@ -29,12 +29,12 @@ public class ParseBoolean implements ChoreoExpr<Boolean> {
 		this.operand = new ConstantExpr<String>(operand);
 	}
 
-	public Class<? extends Boolean> getReturnType() {
+	public Class<Boolean> getReturnType() {
 		return Boolean.class;
 	}
 
 	public Boolean evaluate(RunContext context) throws ChoreoRunException {
-		Object spec = operand == null ? null : operand.evaluate(context);
+		Object spec = ExprUtils.reduce(operand, context);
 		return Boolean.valueOf(spec == null ? null : spec.toString());
 	}
 

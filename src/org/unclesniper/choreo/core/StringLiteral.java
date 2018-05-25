@@ -24,7 +24,7 @@ public class StringLiteral implements ChoreoExpr<String> {
 		this.value = value;
 	}
 
-	public Class<? extends String> getReturnType() {
+	public Class<String> getReturnType() {
 		return String.class;
 	}
 

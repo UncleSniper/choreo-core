@@ -13,12 +13,12 @@ public class StringLength extends AbstractStringOperation implements ChoreoExpr<
 		super(string);
 	}
 
-	public Class<? extends Integer> getReturnType() {
+	public Class<Integer> getReturnType() {
 		return Integer.class;
 	}
 
 	public Integer evaluate(RunContext context) throws ChoreoRunException {
-		String estring = string == null ? null : string.evaluate(context);
+		String estring = ExprUtils.reduce(string, context);
 		return estring.length();
 	}
 

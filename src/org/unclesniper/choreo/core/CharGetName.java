@@ -26,10 +26,10 @@ public class CharGetName implements ChoreoExpr<String> {
 	}
 
 	public void setCodepoint(Integer codepoint) {
-		this.codepoint = codepoint == null ? null : new ConstantExpr<Integer>(codepoint);
+		this.codepoint = ConstantExpr.from(codepoint);
 	}
 
-	public Class<? extends String> getReturnType() {
+	public Class<String> getReturnType() {
 		return String.class;
 	}
 

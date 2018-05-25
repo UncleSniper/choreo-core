@@ -78,15 +78,15 @@ public class StringIndexOf extends AbstractStringOperation implements ChoreoExpr
 		this.last = ExprUtils.ensureReturnType(last, Boolean.class);
 	}
 
-	public Class<? extends Integer> getReturnType() {
+	public Class<Integer> getReturnType() {
 		return Integer.class;
 	}
 
 	public Integer evaluate(RunContext context) throws ChoreoRunException {
-		String ehaystack = string == null ? null : string.evaluate(context);
-		Object eneedle = needle == null ? null : needle.evaluate(context);
-		Integer efrom = from == null ? null : from.evaluate(context);
-		Boolean elast = last == null ? null : last.evaluate(context);
+		String ehaystack = ExprUtils.reduce(string, context);
+		Object eneedle = ExprUtils.reduce(needle, context);
+		Integer efrom = ExprUtils.reduce(from, context);
+		Boolean elast = ExprUtils.reduce(last, context);
 		if(eneedle instanceof String) {
 			String sneedle = (String)eneedle;
 			if(efrom == null)

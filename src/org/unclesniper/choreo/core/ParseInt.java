@@ -43,13 +43,13 @@ public class ParseInt implements ChoreoExpr<Integer> {
 		this.radix = new ConstantExpr<Integer>(radix);
 	}
 
-	public Class<? extends Integer> getReturnType() {
+	public Class<Integer> getReturnType() {
 		return Integer.class;
 	}
 
 	public Integer evaluate(RunContext context) throws ChoreoRunException {
-		Object spec = operand == null ? null : operand.evaluate(context);
-		Integer rspec = radix == null ? null : radix.evaluate(context);
+		Object spec = ExprUtils.reduce(operand, context);
+		Integer rspec = ExprUtils.reduce(radix, context);
 		return Integer.valueOf(spec == null ? null : spec.toString(),
 				rspec == null || rspec <= 0 ? (Integer)10 : rspec);
 	}

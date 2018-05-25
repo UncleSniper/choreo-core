@@ -29,12 +29,12 @@ public class ParseFloat implements ChoreoExpr<Float> {
 		this.operand = new ConstantExpr<String>(operand);
 	}
 
-	public Class<? extends Float> getReturnType() {
+	public Class<Float> getReturnType() {
 		return Float.class;
 	}
 
 	public Float evaluate(RunContext context) throws ChoreoRunException {
-		Object spec = operand == null ? null : operand.evaluate(context);
+		Object spec = ExprUtils.reduce(operand, context);
 		return Float.valueOf(spec == null ? null : spec.toString());
 	}
 

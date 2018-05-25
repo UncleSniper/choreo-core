@@ -24,7 +24,7 @@ public class IntLiteral implements ChoreoExpr<Integer> {
 		this.value = value;
 	}
 
-	public Class<? extends Integer> getReturnType() {
+	public Class<Integer> getReturnType() {
 		return Integer.class;
 	}
 

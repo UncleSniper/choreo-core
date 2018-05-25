@@ -24,7 +24,7 @@ public class ByteLiteral implements ChoreoExpr<Byte> {
 		this.value = value;
 	}
 
-	public Class<? extends Byte> getReturnType() {
+	public Class<Byte> getReturnType() {
 		return Byte.class;
 	}
 

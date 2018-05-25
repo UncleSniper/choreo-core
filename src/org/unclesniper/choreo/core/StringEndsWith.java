@@ -25,15 +25,15 @@ public class StringEndsWith extends AbstractStringOperation implements ChoreoExp
 	}
 
 	public void setSuffix(String suffix) {
-		this.suffix = suffix == null ? null : new ConstantExpr<String>(suffix);
+		this.suffix = ConstantExpr.from(suffix);
 	}
 
-	public Class<? extends Boolean> getReturnType() {
+	public Class<Boolean> getReturnType() {
 		return Boolean.class;
 	}
 
 	public Boolean evaluate(RunContext context) throws ChoreoRunException {
-		String estring = string == null ? null : string.evaluate(context);
+		String estring = ExprUtils.reduce(string, context);
 		return estring.endsWith(suffix.evaluate(context));
 	}
 

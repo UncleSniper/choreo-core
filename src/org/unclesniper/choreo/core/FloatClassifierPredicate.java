@@ -24,10 +24,10 @@ public abstract class FloatClassifierPredicate implements ChoreoExpr<Boolean> {
 	}
 
 	public void setValue(Float value) {
-		this.value = value == null ? null : new ConstantExpr<Float>(value);
+		this.value = ConstantExpr.from(value);
 	}
 
-	public Class<? extends Boolean> getReturnType() {
+	public Class<Boolean> getReturnType() {
 		return Boolean.class;
 	}
 

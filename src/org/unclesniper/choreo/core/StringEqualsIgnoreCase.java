@@ -25,15 +25,15 @@ public class StringEqualsIgnoreCase extends AbstractStringOperation implements C
 	}
 
 	public void setOther(String other) {
-		this.other = other == null ? null : new ConstantExpr<String>(other);
+		this.other = ConstantExpr.from(other);
 	}
 
-	public Class<? extends Boolean> getReturnType() {
+	public Class<Boolean> getReturnType() {
 		return Boolean.class;
 	}
 
 	public Boolean evaluate(RunContext context) throws ChoreoRunException {
-		String estring = string == null ? null : string.evaluate(context);
+		String estring = ExprUtils.reduce(string, context);
 		return estring.equalsIgnoreCase(other.evaluate(context));
 	}
 

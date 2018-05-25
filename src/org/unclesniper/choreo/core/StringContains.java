@@ -25,15 +25,15 @@ public class StringContains extends AbstractStringOperation implements ChoreoExp
 	}
 
 	public void setSubseq(CharSequence subseq) {
-		this.subseq = subseq == null ? null : new ConstantExpr<CharSequence>(subseq);
+		this.subseq = ConstantExpr.from(subseq);
 	}
 
-	public Class<? extends Boolean> getReturnType() {
+	public Class<Boolean> getReturnType() {
 		return Boolean.class;
 	}
 
 	public Boolean evaluate(RunContext context) throws ChoreoRunException {
-		String estring = string == null ? null : string.evaluate(context);
+		String estring = ExprUtils.reduce(string, context);
 		return estring.contains(subseq.evaluate(context));
 	}
 

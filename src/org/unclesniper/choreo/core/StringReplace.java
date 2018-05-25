@@ -53,11 +53,11 @@ public class StringReplace extends AbstractStringOperation implements ChoreoExpr
 	}
 
 	public void setNeedle(CharSequence needle) {
-		this.needle = needle == null ? null : new ConstantExpr<CharSequence>(needle);
+		this.needle = ConstantExpr.from(needle);
 	}
 
 	public void setNeedle(Character needle) {
-		this.needle = needle == null ? null : new ConstantExpr<Character>(needle);
+		this.needle = ConstantExpr.from(needle);
 	}
 
 	public ChoreoExpr<?> getReplacement() {
@@ -75,21 +75,21 @@ public class StringReplace extends AbstractStringOperation implements ChoreoExpr
 	}
 
 	public void setReplacement(CharSequence replacement) {
-		this.replacement = replacement == null ? null : new ConstantExpr<CharSequence>(replacement);
+		this.replacement = ConstantExpr.from(replacement);
 	}
 
 	public void setReplacement(Character replacement) {
-		this.replacement = replacement == null ? null : new ConstantExpr<Character>(replacement);
+		this.replacement = ConstantExpr.from(replacement);
 	}
 
-	public Class<? extends String> getReturnType() {
+	public Class<String> getReturnType() {
 		return String.class;
 	}
 
 	public String evaluate(RunContext context) throws ChoreoRunException {
-		String ehaystack = string == null ? null : string.evaluate(context);
-		Object eneedle = needle == null ? null : needle.evaluate(context);
-		Object ereplacement = replacement == null ? null : replacement.evaluate(context);
+		String ehaystack = ExprUtils.reduce(string, context);
+		Object eneedle = ExprUtils.reduce(needle, context);
+		Object ereplacement = ExprUtils.reduce(replacement, context);
 		if(eneedle instanceof Character) {
 			char cneedle = (Character)eneedle;
 			if(ereplacement instanceof Character)

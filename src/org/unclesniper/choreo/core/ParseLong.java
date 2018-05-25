@@ -43,13 +43,13 @@ public class ParseLong implements ChoreoExpr<Long> {
 		this.radix = new ConstantExpr<Integer>(radix);
 	}
 
-	public Class<? extends Long> getReturnType() {
+	public Class<Long> getReturnType() {
 		return Long.class;
 	}
 
 	public Long evaluate(RunContext context) throws ChoreoRunException {
-		Object spec = operand == null ? null : operand.evaluate(context);
-		Integer rspec = radix == null ? null : radix.evaluate(context);
+		Object spec = ExprUtils.reduce(operand, context);
+		Integer rspec = ExprUtils.reduce(radix, context);
 		return Long.valueOf(spec == null ? null : spec.toString(),
 				rspec == null || rspec <= 0 ? (Integer)10 : rspec);
 	}

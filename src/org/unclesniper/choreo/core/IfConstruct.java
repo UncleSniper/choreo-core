@@ -44,7 +44,7 @@ public class IfConstruct<ReturnT> implements ChoreoTask, ChoreoExpr<ReturnT> {
 	}
 
 	public void setElseObject(ReturnT value) {
-		this.elseBranch = value == null ? null : new ConstantExpr<ReturnT>(value);
+		this.elseBranch = ConstantExpr.from(value);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -83,9 +83,9 @@ public class IfConstruct<ReturnT> implements ChoreoTask, ChoreoExpr<ReturnT> {
 			if(test == null || !test)
 				continue;
 			ChoreoExpr<? extends ReturnT> body = branch.getValue();
-			return body == null ? null : body.evaluate(context);
+			return ExprUtils.reduce(body, context);
 		}
-		return elseBranch == null ? null : elseBranch.evaluate(context);
+		return ExprUtils.reduce(elseBranch, context);
 	}
 
 }

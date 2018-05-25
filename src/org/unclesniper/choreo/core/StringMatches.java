@@ -25,16 +25,16 @@ public class StringMatches extends AbstractStringOperation implements ChoreoExpr
 	}
 
 	public void setRegex(String regex) {
-		this.regex = regex == null ? null : new ConstantExpr<String>(regex);
+		this.regex = ConstantExpr.from(regex);
 	}
 
-	public Class<? extends Boolean> getReturnType() {
+	public Class<Boolean> getReturnType() {
 		return Boolean.class;
 	}
 
 	public Boolean evaluate(RunContext context) throws ChoreoRunException {
-		String estring = string == null ? null : string.evaluate(context);
-		String eregex = regex == null ? null : regex.evaluate(context);
+		String estring = ExprUtils.reduce(string, context);
+		String eregex = ExprUtils.reduce(regex, context);
 		return estring.matches(eregex);
 	}
 

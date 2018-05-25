@@ -24,7 +24,7 @@ public class CharLiteral implements ChoreoExpr<Character> {
 		this.value = value;
 	}
 
-	public Class<? extends Character> getReturnType() {
+	public Class<Character> getReturnType() {
 		return Character.class;
 	}
 

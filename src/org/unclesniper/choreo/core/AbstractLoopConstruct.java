@@ -68,7 +68,7 @@ public class AbstractLoopConstruct<ReturnT> implements ChoreoTask, ChoreoExpr<Re
 	}
 
 	public void setLabel(String label) {
-		this.label = label == null ? null : new ConstantExpr<String>(label);
+		this.label = ConstantExpr.from(label);
 	}
 
 	public Class<? extends ReturnT> getReturnType() {
@@ -83,7 +83,7 @@ public class AbstractLoopConstruct<ReturnT> implements ChoreoTask, ChoreoExpr<Re
 	public ReturnT evaluate(RunContext context) throws ChoreoRunException {
 		if(condition == null)
 			return null;
-		String elabel = label == null ? null : label.evaluate(context);
+		String elabel = ExprUtils.reduce(label, context);
 		ReturnT result = null;
 		boolean first = true, testNow;
 		for(;;) {

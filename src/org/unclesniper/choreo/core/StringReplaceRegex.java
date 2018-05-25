@@ -40,7 +40,7 @@ public class StringReplaceRegex extends AbstractStringOperation implements Chore
 	}
 
 	public void setRegex(String regex) {
-		this.regex = regex == null ? null : new ConstantExpr<String>(regex);
+		this.regex = ConstantExpr.from(regex);
 	}
 
 	public ChoreoExpr<String> getReplacement() {
@@ -52,11 +52,7 @@ public class StringReplaceRegex extends AbstractStringOperation implements Chore
 	}
 
 	public void setReplacement(String replacement) {
-		this.replacement = replacement == null ? null : new ConstantExpr<String>(replacement);
-	}
-
-	public Class<? extends String> getReturnType() {
-		return String.class;
+		this.replacement = ConstantExpr.from(replacement);
 	}
 
 	public ChoreoExpr<Boolean> getAll() {
@@ -68,7 +64,7 @@ public class StringReplaceRegex extends AbstractStringOperation implements Chore
 	}
 
 	public void setAll(Boolean all) {
-		this.all = all == null ? null : new ConstantExpr<Boolean>(all);
+		this.all = ConstantExpr.from(all);
 	}
 
 	public ChoreoExpr<Boolean> getQuote() {
@@ -80,15 +76,19 @@ public class StringReplaceRegex extends AbstractStringOperation implements Chore
 	}
 
 	public void setQuote(Boolean quote) {
-		this.quote = quote == null ? null : new ConstantExpr<Boolean>(quote);
+		this.quote = ConstantExpr.from(quote);
+	}
+
+	public Class<String> getReturnType() {
+		return String.class;
 	}
 
 	public String evaluate(RunContext context) throws ChoreoRunException {
-		String ehaystack = string == null ? null : string.evaluate(context);
-		String eregex = regex == null ? null : regex.evaluate(context);
-		String ereplacement = replacement == null ? null : replacement.evaluate(context);
-		Boolean eall = all == null ? null : all.evaluate(context);
-		Boolean equote = quote == null ? null : quote.evaluate(context);
+		String ehaystack = ExprUtils.reduce(string, context);
+		String eregex = ExprUtils.reduce(regex, context);
+		String ereplacement = ExprUtils.reduce(replacement, context);
+		Boolean eall = ExprUtils.reduce(all, context);
+		Boolean equote = ExprUtils.reduce(quote, context);
 		if(equote != null && equote)
 			ereplacement = Matcher.quoteReplacement(ereplacement);
 		if(eall != null && eall)

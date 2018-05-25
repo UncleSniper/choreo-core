@@ -37,7 +37,7 @@ public class StringFormat implements ChoreoExpr<String> {
 	}
 
 	public void setLocale(Locale locale) {
-		this.locale = locale == null ? null : new ConstantExpr<Locale>(locale);
+		this.locale = ConstantExpr.from(locale);
 	}
 
 	public ChoreoExpr<String> getFormat() {
@@ -49,10 +49,10 @@ public class StringFormat implements ChoreoExpr<String> {
 	}
 
 	public void setFormat(String format) {
-		this.format = format == null ? null : new ConstantExpr<String>(format);
+		this.format = ConstantExpr.from(format);
 	}
 
-	public Class<? extends String> getReturnType() {
+	public Class<String> getReturnType() {
 		return String.class;
 	}
 
@@ -66,7 +66,7 @@ public class StringFormat implements ChoreoExpr<String> {
 	}
 
 	public void addArgumentValue(Object argument) {
-		arguments.add(argument == null ? null : new ConstantExpr<Object>(argument));
+		arguments.add(ConstantExpr.from(argument));
 	}
 
 	public boolean removeArgument(ChoreoExpr<?> argument) {
@@ -78,12 +78,12 @@ public class StringFormat implements ChoreoExpr<String> {
 	}
 
 	public String evaluate(RunContext context) throws ChoreoRunException {
-		Locale elocale = locale == null ? null : locale.evaluate(context);
-		String eformat = format == null ? null : format.evaluate(context);
+		Locale elocale = ExprUtils.reduce(locale, context);
+		String eformat = ExprUtils.reduce(format, context);
 		Object[] eargs = new Object[arguments.size()];
 		int index = -1;
 		for(ChoreoExpr<?> argument : arguments)
-			eargs[++index] = argument == null ? null : argument.evaluate(context);
+			eargs[++index] = ExprUtils.reduce(argument, context);
 		if(elocale == null)
 			return String.format(eformat, eargs);
 		else

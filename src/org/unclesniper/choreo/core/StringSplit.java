@@ -37,7 +37,7 @@ public class StringSplit extends AbstractStringOperation implements ChoreoExpr<S
 	}
 
 	public void setRegex(String regex) {
-		this.regex = regex == null ? null : new ConstantExpr<String>(regex);
+		this.regex = ConstantExpr.from(regex);
 	}
 
 	public ChoreoExpr<Boolean> getQuote() {
@@ -49,7 +49,7 @@ public class StringSplit extends AbstractStringOperation implements ChoreoExpr<S
 	}
 
 	public void setQuote(Boolean quote) {
-		this.quote = quote == null ? null : new ConstantExpr<Boolean>(quote);
+		this.quote = ConstantExpr.from(quote);
 	}
 
 	public ChoreoExpr<Integer> getLimit() {
@@ -61,18 +61,18 @@ public class StringSplit extends AbstractStringOperation implements ChoreoExpr<S
 	}
 
 	public void setLimit(Integer limit) {
-		this.limit = limit == null ? null : new ConstantExpr<Integer>(limit);
+		this.limit = ConstantExpr.from(limit);
 	}
 
-	public Class<? extends String[]> getReturnType() {
+	public Class<String[]> getReturnType() {
 		return String[].class;
 	}
 
 	public String[] evaluate(RunContext context) throws ChoreoRunException {
-		String ehaystack = string == null ? null : string.evaluate(context);
-		String eregex = regex == null ? null : regex.evaluate(context);
-		Boolean equote = quote == null ? null : quote.evaluate(context);
-		Integer elimit = limit == null ? null : limit.evaluate(context);
+		String ehaystack = ExprUtils.reduce(string, context);
+		String eregex = ExprUtils.reduce(regex, context);
+		Boolean equote = ExprUtils.reduce(quote, context);
+		Integer elimit = ExprUtils.reduce(limit, context);
 		if(equote != null && equote)
 			eregex = Pattern.quote(eregex);
 		if(elimit != null)

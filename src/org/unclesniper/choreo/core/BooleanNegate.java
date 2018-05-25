@@ -31,14 +31,14 @@ public class BooleanNegate implements ChoreoExpr<Boolean> {
 
 	@DefaultAdder
 	public void setOperand(Boolean operand) {
-		this.operand = operand == null ? null : new ConstantExpr<Boolean>(operand);
+		this.operand = ConstantExpr.from(operand);
 	}
 
 	public Boolean evaluate(RunContext context) throws ChoreoRunException {
 		return !operand.evaluate(context);
 	}
 
-	public Class<? extends Boolean> getReturnType() {
+	public Class<Boolean> getReturnType() {
 		return Boolean.class;
 	}
 

@@ -32,7 +32,7 @@ public class StringStartsWith extends AbstractStringOperation implements ChoreoE
 	}
 
 	public void setPrefix(String prefix) {
-		this.prefix = prefix == null ? null : new ConstantExpr<String>(prefix);
+		this.prefix = ConstantExpr.from(prefix);
 	}
 
 	public ChoreoExpr<Integer> getOffset() {
@@ -43,14 +43,14 @@ public class StringStartsWith extends AbstractStringOperation implements ChoreoE
 		this.offset = ExprUtils.ensureReturnType(offset, Integer.class);
 	}
 
-	public Class<? extends Boolean> getReturnType() {
+	public Class<Boolean> getReturnType() {
 		return Boolean.class;
 	}
 
 	public Boolean evaluate(RunContext context) throws ChoreoRunException {
-		String estring = string == null ? null : string.evaluate(context);
-		String eprefix = prefix == null ? null : prefix.evaluate(context);
-		Integer eoffset = offset == null ? null : offset.evaluate(context);
+		String estring = ExprUtils.reduce(string, context);
+		String eprefix = ExprUtils.reduce(prefix, context);
+		Integer eoffset = ExprUtils.reduce(offset, context);
 		if(eoffset != null && eoffset >= 0)
 			return estring.startsWith(eprefix, eoffset);
 		else

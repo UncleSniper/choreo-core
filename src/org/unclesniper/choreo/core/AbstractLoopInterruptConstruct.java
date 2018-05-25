@@ -36,7 +36,7 @@ public class AbstractLoopInterruptConstruct<ReturnT> implements ChoreoTask, Chor
 	}
 
 	public void setLabel(String label) {
-		this.label = label == null ? null : new ConstantExpr<String>(label);
+		this.label = ConstantExpr.from(label);
 	}
 
 	public ChoreoExpr<?> getValue() {
@@ -49,7 +49,7 @@ public class AbstractLoopInterruptConstruct<ReturnT> implements ChoreoTask, Chor
 	}
 
 	public void setObject(Object value) {
-		this.value = value == null ? null : new ConstantExpr<Object>(value);
+		this.value = ConstantExpr.from(value);
 	}
 
 	public Class<? extends ReturnT> getReturnType() {
@@ -61,8 +61,8 @@ public class AbstractLoopInterruptConstruct<ReturnT> implements ChoreoTask, Chor
 	}
 
 	public ReturnT evaluate(RunContext context) throws ChoreoRunException {
-		String elabel = label == null ? null : label.evaluate(context);
-		Object evalue = value == null ? null : value.evaluate(context);
+		String elabel = ExprUtils.reduce(label, context);
+		Object evalue = ExprUtils.reduce(value, context);
 		throw new LoopInterruptSignal(keepGoing, elabel, evalue);
 	}
 

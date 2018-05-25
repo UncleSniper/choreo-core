@@ -26,10 +26,10 @@ public class CharToString implements ChoreoExpr<String> {
 	}
 
 	public void setCharacter(Character character) {
-		this.character = character == null ? null : new ConstantExpr<Character>(character);
+		this.character = ConstantExpr.from(character);
 	}
 
-	public Class<? extends String> getReturnType() {
+	public Class<String> getReturnType() {
 		return String.class;
 	}
 

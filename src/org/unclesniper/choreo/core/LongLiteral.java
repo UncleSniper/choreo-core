@@ -24,7 +24,7 @@ public class LongLiteral implements ChoreoExpr<Long> {
 		this.value = value;
 	}
 
-	public Class<? extends Long> getReturnType() {
+	public Class<Long> getReturnType() {
 		return Long.class;
 	}
 

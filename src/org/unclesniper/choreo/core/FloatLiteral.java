@@ -24,7 +24,7 @@ public class FloatLiteral implements ChoreoExpr<Float> {
 		this.value = value;
 	}
 
-	public Class<? extends Float> getReturnType() {
+	public Class<Float> getReturnType() {
 		return Float.class;
 	}
 

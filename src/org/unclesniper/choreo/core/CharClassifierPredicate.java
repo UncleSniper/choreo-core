@@ -24,10 +24,10 @@ public abstract class CharClassifierPredicate implements ChoreoExpr<Boolean> {
 	}
 
 	public void setCodepoint(Integer codepoint) {
-		this.codepoint = codepoint == null ? null : new ConstantExpr<Integer>(codepoint);
+		this.codepoint = ConstantExpr.from(codepoint);
 	}
 
-	public Class<? extends Boolean> getReturnType() {
+	public Class<Boolean> getReturnType() {
 		return Boolean.class;
 	}
 

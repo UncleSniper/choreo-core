@@ -43,13 +43,13 @@ public class ParseByte implements ChoreoExpr<Byte> {
 		this.radix = new ConstantExpr<Integer>(radix);
 	}
 
-	public Class<? extends Byte> getReturnType() {
+	public Class<Byte> getReturnType() {
 		return Byte.class;
 	}
 
 	public Byte evaluate(RunContext context) throws ChoreoRunException {
-		Object spec = operand == null ? null : operand.evaluate(context);
-		Integer rspec = radix == null ? null : radix.evaluate(context);
+		Object spec = ExprUtils.reduce(operand, context);
+		Integer rspec = ExprUtils.reduce(radix, context);
 		return Byte.valueOf(spec == null ? null : spec.toString(),
 				rspec == null || rspec <= 0 ? (Integer)10 : rspec);
 	}

@@ -32,7 +32,7 @@ public class StringCompare extends AbstractStringOperation implements ChoreoExpr
 	}
 
 	public void setOther(String other) {
-		this.other = other == null ? null : new ConstantExpr<String>(other);
+		this.other = ConstantExpr.from(other);
 	}
 
 	public ChoreoExpr<Boolean> getIgnoreCase() {
@@ -44,17 +44,17 @@ public class StringCompare extends AbstractStringOperation implements ChoreoExpr
 	}
 
 	public void setIgnoreCase(Boolean ignoreCase) {
-		this.ignoreCase = ignoreCase == null ? null : new ConstantExpr<Boolean>(ignoreCase);
+		this.ignoreCase = ConstantExpr.from(ignoreCase);
 	}
 
-	public Class<? extends Integer> getReturnType() {
+	public Class<Integer> getReturnType() {
 		return Integer.class;
 	}
 
 	public Integer evaluate(RunContext context) throws ChoreoRunException {
-		String estring = string == null ? null : string.evaluate(context);
-		String eother = other == null ? null : other.evaluate(context);
-		Boolean eignore = ignoreCase == null ? null : ignoreCase.evaluate(context);
+		String estring = ExprUtils.reduce(string, context);
+		String eother = ExprUtils.reduce(other, context);
+		Boolean eignore = ExprUtils.reduce(ignoreCase, context);
 		if(eignore == null || !eignore)
 			return estring.compareTo(eother);
 		else

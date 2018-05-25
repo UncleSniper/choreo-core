@@ -29,12 +29,12 @@ public class ParseDouble implements ChoreoExpr<Double> {
 		this.operand = new ConstantExpr<String>(operand);
 	}
 
-	public Class<? extends Double> getReturnType() {
+	public Class<Double> getReturnType() {
 		return Double.class;
 	}
 
 	public Double evaluate(RunContext context) throws ChoreoRunException {
-		Object spec = operand == null ? null : operand.evaluate(context);
+		Object spec = ExprUtils.reduce(operand, context);
 		return Double.valueOf(spec == null ? null : spec.toString());
 	}
 

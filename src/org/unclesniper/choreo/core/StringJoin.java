@@ -28,7 +28,7 @@ public class StringJoin implements ChoreoExpr<String> {
 	}
 
 	public void setDelimiter(CharSequence delimiter) {
-		this.delimiter = delimiter == null ? null : new ConstantExpr<CharSequence>(delimiter);
+		this.delimiter = ConstantExpr.from(delimiter);
 	}
 
 	public Iterable<ChoreoExpr<? extends CharSequence>> getElements() {
@@ -51,12 +51,12 @@ public class StringJoin implements ChoreoExpr<String> {
 		elements.clear();
 	}
 
-	public Class<? extends String> getReturnType() {
+	public Class<String> getReturnType() {
 		return String.class;
 	}
 
 	public String evaluate(RunContext context) throws ChoreoRunException {
-		CharSequence edelemiter = delimiter == null ? null : delimiter.evaluate(context);
+		CharSequence edelemiter = ExprUtils.reduce(delimiter, context);
 		List<CharSequence> eelements = new LinkedList<CharSequence>();
 		for(ChoreoExpr<? extends CharSequence> element : elements) {
 			CharSequence eelement = element.evaluate(context);

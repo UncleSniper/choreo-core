@@ -2,6 +2,8 @@ package org.unclesniper.choreo.core;
 
 import java.util.Map;
 import java.util.HashMap;
+import org.unclesniper.choreo.RunContext;
+import org.unclesniper.choreo.ChoreoRunException;
 
 public final class ExprUtils {
 
@@ -65,6 +67,11 @@ public final class ExprUtils {
 		while(!a.isAssignableFrom(b))
 			a = a.getSuperclass();
 		return a;
+	}
+
+	public static <ReturnT> ReturnT reduce(ChoreoExpr<ReturnT> expression, RunContext context)
+			throws ChoreoRunException {
+		return expression == null ? null : expression.evaluate(context);
 	}
 
 }

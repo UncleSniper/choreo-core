@@ -13,12 +13,12 @@ public class StringEmpty extends AbstractStringOperation implements ChoreoExpr<B
 		super(string);
 	}
 
-	public Class<? extends Boolean> getReturnType() {
+	public Class<Boolean> getReturnType() {
 		return Boolean.class;
 	}
 
 	public Boolean evaluate(RunContext context) throws ChoreoRunException {
-		String estring = string == null ? null : string.evaluate(context);
+		String estring = ExprUtils.reduce(string, context);
 		return estring.isEmpty();
 	}
 
