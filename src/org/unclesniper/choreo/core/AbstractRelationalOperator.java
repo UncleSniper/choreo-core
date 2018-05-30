@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.HashSet;
 import java.util.HashMap;
 import java.util.LinkedList;
+import org.unclesniper.choreo.Doom;
 import org.unclesniper.choreo.RunContext;
 import org.unclesniper.choreo.ChoreoRunException;
 import org.unclesniper.choreo.annotation.DefaultAdder;
@@ -149,12 +150,240 @@ public abstract class AbstractRelationalOperator implements ChoreoExpr<Boolean> 
 			if(nextType == null)
 				throw new ClassCastException("Operand is not a recognized ordered type: " + nextValue);
 			if(prevType != null) {
-				//TODO
+				boolean cmp;
+				switch(prevType) {
+					case BYTE:
+						cmp = forByte((Byte)prevValue, nextValue, nextType);
+						break;
+					case SHORT:
+						cmp = forShort((Short)prevValue, nextValue, nextType);
+						break;
+					case INT:
+						cmp = forInt((Integer)prevValue, nextValue, nextType);
+						break;
+					case LONG:
+						cmp = forLong((Long)prevValue, nextValue, nextType);
+						break;
+					case FLOAT:
+						cmp = forFloat((Float)prevValue, nextValue, nextType);
+						break;
+					case DOUBLE:
+						cmp = forDouble((Double)prevValue, nextValue, nextType);
+						break;
+					case CHAR:
+						cmp = forChar((Character)prevValue, nextValue, nextType);
+						break;
+					case STRING:
+						cmp = forString((String)prevValue, nextValue, nextType);
+						break;
+					default:
+						throw new Doom("Unrecognized operand type: " + prevType.name());
+				}
+				if(!cmp)
+					return false;
 			}
 			prevValue = nextValue;
 			prevType = nextType;
 		}
 		return true;
 	}
+
+	private void noString(Object value) {
+		throw new IllegalArgumentException("Cowardly refusing to compare a String to a "
+				+ value.getClass().getName());
+	}
+
+	private boolean forByte(byte prevValue, Object nextValue, OperandType nextType) {
+		switch(nextType) {
+			case BYTE:
+				return compare(prevValue, (Byte)nextValue);
+			case SHORT:
+				return compare((short)prevValue, (Short)nextValue);
+			case INT:
+				return compare((int)prevValue, (Integer)nextValue);
+			case LONG:
+				return compare((long)prevValue, (Long)nextValue);
+			case FLOAT:
+				return compare((float)prevValue, (Float)nextValue);
+			case DOUBLE:
+				return compare((double)prevValue, (Double)nextValue);
+			case CHAR:
+				return compare((char)((prevValue + 256) % 256), (Character)nextValue);
+			case STRING:
+				noString(prevValue);
+			default:
+				throw new Doom("Unrecognized operand type: " + nextType.name());
+		}
+	}
+
+	private boolean forShort(short prevValue, Object nextValue, OperandType nextType) {
+		switch(nextType) {
+			case BYTE:
+				return compare(prevValue, (short)(Byte)nextValue);
+			case SHORT:
+				return compare(prevValue, (Short)nextValue);
+			case INT:
+				return compare((int)prevValue, (Integer)nextValue);
+			case LONG:
+				return compare((long)prevValue, (Long)nextValue);
+			case FLOAT:
+				return compare((float)prevValue, (Float)nextValue);
+			case DOUBLE:
+				return compare((double)prevValue, (Double)nextValue);
+			case CHAR:
+				return compare((char)prevValue, (Character)nextValue);
+			case STRING:
+				noString(prevValue);
+			default:
+				throw new Doom("Unrecognized operand type: " + nextType.name());
+		}
+	}
+
+	private boolean forInt(int prevValue, Object nextValue, OperandType nextType) {
+		switch(nextType) {
+			case BYTE:
+				return compare(prevValue, (int)(Byte)nextValue);
+			case SHORT:
+				return compare(prevValue, (int)(Short)nextValue);
+			case INT:
+				return compare(prevValue, (Integer)nextValue);
+			case LONG:
+				return compare((long)prevValue, (Long)nextValue);
+			case FLOAT:
+				return compare((float)prevValue, (Float)nextValue);
+			case DOUBLE:
+				return compare((double)prevValue, (Double)nextValue);
+			case CHAR:
+				return compare(prevValue, (int)(Character)nextValue);
+			case STRING:
+				noString(prevValue);
+			default:
+				throw new Doom("Unrecognized operand type: " + nextType.name());
+		}
+	}
+
+	private boolean forLong(long prevValue, Object nextValue, OperandType nextType) {
+		switch(nextType) {
+			case BYTE:
+				return compare(prevValue, (long)(Byte)nextValue);
+			case SHORT:
+				return compare(prevValue, (long)(Short)nextValue);
+			case INT:
+				return compare(prevValue, (long)(Integer)nextValue);
+			case LONG:
+				return compare(prevValue, (Long)nextValue);
+			case FLOAT:
+				return compare((double)prevValue, (double)(Float)nextValue);
+			case DOUBLE:
+				return compare((double)prevValue, (Double)nextValue);
+			case CHAR:
+				return compare(prevValue, (long)(Character)nextValue);
+			case STRING:
+			default:
+				throw new Doom("Unrecognized operand type: " + nextType.name());
+		}
+	}
+
+	private boolean forFloat(float prevValue, Object nextValue, OperandType nextType) {
+		switch(nextType) {
+			case BYTE:
+				return compare(prevValue, (float)(Byte)nextValue);
+			case SHORT:
+				return compare(prevValue, (float)(Short)nextValue);
+			case INT:
+				return compare(prevValue, (float)(Integer)nextValue);
+			case LONG:
+				return compare((double)prevValue, (double)(Long)nextValue);
+			case FLOAT:
+				return compare(prevValue, (Float)nextValue);
+			case DOUBLE:
+				return compare((double)prevValue, (Double)nextValue);
+			case CHAR:
+				return compare(prevValue, (float)(Character)nextValue);
+			case STRING:
+				noString(prevValue);
+			default:
+				throw new Doom("Unrecognized operand type: " + nextType.name());
+		}
+	}
+
+	private boolean forDouble(double prevValue, Object nextValue, OperandType nextType) {
+		switch(nextType) {
+			case BYTE:
+				return compare(prevValue, (double)(Byte)nextValue);
+			case SHORT:
+				return compare(prevValue, (double)(Short)nextValue);
+			case INT:
+				return compare(prevValue, (double)(Integer)nextValue);
+			case LONG:
+				return compare(prevValue, (double)(Long)nextValue);
+			case FLOAT:
+				return compare(prevValue, (double)(Float)nextValue);
+			case DOUBLE:
+				return compare(prevValue, (Double)nextValue);
+			case CHAR:
+				return compare(prevValue, (double)(Character)nextValue);
+			case STRING:
+				noString(prevValue);
+			default:
+				throw new Doom("Unrecognized operand type: " + nextType.name());
+		}
+	}
+
+	private boolean forChar(char prevValue, Object nextValue, OperandType nextType) {
+		switch(nextType) {
+			case BYTE:
+				return compare(prevValue, (char)(((Byte)nextValue + 256) % 256));
+			case SHORT:
+				return compare(prevValue, (char)(short)(Short)nextValue);
+			case INT:
+				return compare((int)prevValue, (Integer)nextValue);
+			case LONG:
+				return compare((long)prevValue, (Long)nextValue);
+			case FLOAT:
+				return compare((float)prevValue, (Float)nextValue);
+			case DOUBLE:
+				return compare((double)prevValue, (Double)nextValue);
+			case CHAR:
+				return compare(prevValue, (Character)nextValue);
+			case STRING:
+				noString(prevValue);
+			default:
+				throw new Doom("Unrecognized operand type: " + nextType.name());
+		}
+	}
+
+	private boolean forString(String prevValue, Object nextValue, OperandType nextType) {
+		switch(nextType) {
+			case BYTE:
+			case SHORT:
+			case INT:
+			case LONG:
+			case FLOAT:
+			case DOUBLE:
+			case CHAR:
+				noString(nextValue);
+			case STRING:
+				return compare(prevValue, (String)nextValue);
+			default:
+				throw new Doom("Unrecognized operand type: " + nextType.name());
+		}
+	}
+
+	protected abstract boolean compare(byte a, byte b);
+
+	protected abstract boolean compare(short a, short b);
+
+	protected abstract boolean compare(int a, int b);
+
+	protected abstract boolean compare(long a, long b);
+
+	protected abstract boolean compare(float a, float b);
+
+	protected abstract boolean compare(double a, double b);
+
+	protected abstract boolean compare(char a, char b);
+
+	protected abstract boolean compare(String a, String b);
 
 }
