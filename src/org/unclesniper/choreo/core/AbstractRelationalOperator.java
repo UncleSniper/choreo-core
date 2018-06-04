@@ -68,17 +68,7 @@ public abstract class AbstractRelationalOperator implements ChoreoExpr<Boolean> 
 
 	private final List<ChoreoExpr<?>> operands = new LinkedList<ChoreoExpr<?>>();
 
-	private ChoreoExpr<Double> epsilon;
-
 	public AbstractRelationalOperator() {}
-
-	public ChoreoExpr<Double> getEpsilon() {
-		return epsilon;
-	}
-
-	public void setEpsilon(ChoreoExpr<Double> epsilon) {
-		this.epsilon = ExprUtils.ensureReturnType(epsilon, Double.class);
-	}
 
 	public Iterable<ChoreoExpr<?>> getOperands() {
 		return operands;
@@ -135,13 +125,19 @@ public abstract class AbstractRelationalOperator implements ChoreoExpr<Boolean> 
 			operands.add(new ConstantExpr<String>(operand));
 	}
 
+	public boolean removeOperand(ChoreoExpr<?> operand) {
+		return operands.remove(operand);
+	}
+
+	public void clearOperands() {
+		operands.clear();
+	}
+
 	public Class<Boolean> getReturnType() {
 		return Boolean.class;
 	}
 
 	public Boolean evaluate(RunContext context) throws ChoreoRunException {
-		Double eepsilon = ExprUtils.reduce(epsilon, context);
-		double vepsilon = eepsilon == null ? 0.0 : eepsilon.doubleValue();
 		Object prevValue = null;
 		OperandType prevType = null;
 		for(ChoreoExpr<?> operand : operands) {
