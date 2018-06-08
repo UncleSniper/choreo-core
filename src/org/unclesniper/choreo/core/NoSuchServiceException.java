@@ -7,7 +7,7 @@ public class NoSuchServiceException extends ChoreoRunException {
 	private final String serviceKey;
 
 	public NoSuchServiceException(String serviceKey) {
-		super("No such service object: " + serviceKey);
+		super("No such service object: " + (serviceKey == null ? "<null>" : serviceKey));
 		this.serviceKey = serviceKey;
 	}
 
