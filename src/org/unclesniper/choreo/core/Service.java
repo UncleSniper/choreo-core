@@ -34,6 +34,7 @@ public class Service<T> implements ChoreoExpr<T> {
 		this.key = ExprUtils.ensureReturnType(key, String.class);
 	}
 
+	@DefaultAdder
 	public void setKey(String key) {
 		this.key = ConstantExpr.from(key);
 	}
