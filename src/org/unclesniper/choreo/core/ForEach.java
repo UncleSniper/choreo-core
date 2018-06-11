@@ -2,7 +2,9 @@ package org.unclesniper.choreo.core;
 
 import org.unclesniper.choreo.RunContext;
 import org.unclesniper.choreo.ChoreoTask;
+import org.unclesniper.choreo.ArrayIterable;
 import org.unclesniper.choreo.ChoreoRunException;
+import org.unclesniper.choreo.ServiceRegistryFacade;
 import org.unclesniper.choreo.annotation.ElementClass;
 import org.unclesniper.choreo.annotation.DefaultAdder;
 
@@ -83,16 +85,39 @@ public class ForEach<ReturnT> implements ChoreoTask, ChoreoExpr<ReturnT> {
 		evaluate(context);
 	}
 
+	@SuppressWarnings("unchecked")
 	public ReturnT evaluate(RunContext context) throws ChoreoRunException {
 		String ekey = ExprUtils.reduce(key, context);
 		Object collection = ExprUtils.reduce(in, context);
 		if(collection == null)
 			return null;
 		String elabel = ExprUtils.reduce(label, context);
-		ReturnT result = null;
-		for(;;) {
-			//TODO
+		Iterable target;
+		if(collection instanceof Iterable)
+			target = (Iterable)collection;
+		else {
+			target = ArrayIterable.arrayIterableFromObject(collection);
+			//if(target == null)TODO
 		}
+		ServiceRegistryFacade sreg = context.getServiceRegistry();
+		ReturnT result = null;
+		for(Object element : target) {
+			sreg.putServiceObject(ekey, element);
+			if(body != null) {
+				try {
+					result = body.evaluate(context);
+				}
+				catch(LoopInterruptSignal signal) {
+					String flabel = signal.getLoopLabel();
+					if(flabel != null && !flabel.equals(elabel))
+						throw signal;
+					result = (ReturnT)signal.getReturnValue();
+					if(!signal.isKeepGoing())
+						return result;
+				}
+			}
+		}
+		return result;
 	}
 
 }
