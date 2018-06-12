@@ -97,7 +97,8 @@ public class ForEach<ReturnT> implements ChoreoTask, ChoreoExpr<ReturnT> {
 			target = (Iterable)collection;
 		else {
 			target = ArrayIterable.arrayIterableFromObject(collection);
-			//if(target == null)TODO
+			if(target == null)
+				throw new TargetNotIterableException(collection.getClass());
 		}
 		ServiceRegistryFacade sreg = context.getServiceRegistry();
 		ReturnT result = null;
